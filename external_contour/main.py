@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
+from itertools import chain
 
 
 def rescale(img, pct):
@@ -65,13 +66,16 @@ largest_contours = sorted(contours, key=cv2.contourArea)[-1:]
 cv2.drawContours(img_copy, largest_contours, -1, (0, 255, 0), 2)
 
 # type of largest contours
-print('Type of Largest Contour variable: ', type(largest_contours))
-print(largest_contours)  # 3D list stored in an array
+#print('Type of Largest Contour variable: ', type(largest_contours))
+# python list with all the contours in the image. Each individual contour is a numpy array of (x,y) coordinates of boundary points
+# print(largest_contours)
 
-array = np.asarray(largest_contours)
-print('As array: ', array)
-print('Array type: ', type(array))
+print(len(largest_contours))
 
+for contour in largest_contours:
+
+    print('shape :', contour.shape)
+    print('dimension: ', contour.ndim)
 
 # https://stackoverflow.com/questions/19130897/python-and-combining-a-multidimensional-list-opencv
 # https://medium.com/analytics-vidhya/opencv-findcontours-detailed-guide-692ee19eeb18
