@@ -77,6 +77,12 @@ for contour in largest_contours:
     print('shape :', contour.shape)
     print('dimension: ', contour.ndim)
 
+    for ij in np.ndindex(contour.shape[:2]):
+
+       # print('ij: ', ij)
+        print('contour ij: ', contour[ij][0])
+
+
 # https://stackoverflow.com/questions/19130897/python-and-combining-a-multidimensional-list-opencv
 # https://medium.com/analytics-vidhya/opencv-findcontours-detailed-guide-692ee19eeb18
 
