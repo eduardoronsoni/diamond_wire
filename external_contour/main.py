@@ -5,9 +5,9 @@ from itertools import chain
 
 
 def rescale(img, pct):
-    """ 
+    """
     Rescale the image
-    pct - percentage of the new image size (both in height and width) 
+    pct - percentage of the new image size (both in height and width)
     when compared to the original size
     img - image you want to change the size
 
@@ -24,8 +24,8 @@ def rescale(img, pct):
 
 
 def crop(img, x, y):
-    """ 
-    Crop the image 
+    """
+    Crop the image
     x - maximum x coordinate of pixels (width)
     y - maximum height you want
     img - image you want to change the size
@@ -76,11 +76,22 @@ for contour in largest_contours:
 
     print('shape :', contour.shape)
     print('dimension: ', contour.ndim)
+    max = 0
+    min = contour.max()
+    print('MINIMO TESTE: ', min)
 
-    for ij in np.ndindex(contour.shape[:2]):
+    for i in np.ndindex(contour.shape[:2]):
 
-       # print('ij: ', ij)
-        print('contour ij: ', contour[ij][0])
+        # print('ij: ', ij)
+        print('contour i: ', contour[i][1])
+
+        if contour[i][1] > max:
+            max = contour[i][1]
+        if contour[i][1] < min:
+            min = contour[i][1]
+
+    print('max y: ', max)
+    print('min y: ', min)
 
 
 # https://stackoverflow.com/questions/19130897/python-and-combining-a-multidimensional-list-opencv
@@ -88,5 +99,5 @@ for contour in largest_contours:
 
 
 # Showing Images
-#cv2.imshow('Contours Image', img_copy)
-# cv2.waitKey(0)
+cv2.imshow('Contours Image', img_copy)
+cv2.waitKey(0)
