@@ -49,6 +49,7 @@ img = rescale(img, 50)
 # Copying the images for drawing purposes
 img_copy = img.copy()
 img_draw = img.copy()
+img_point = img.copy()
 
 # img = crop(img,50,100)
 
@@ -82,7 +83,7 @@ for contour in largest_contours:
     for i in np.ndindex(contour.shape[:2]):
 
         #print('i: ', i[0])
-        print('contour i: ', contour[i])  # [1])
+        # print('contour i: ', contour[i])  # [1])
 
         if contour[i][1] > max:
             max = contour[i][1]
@@ -95,6 +96,10 @@ for contour in largest_contours:
     diam = max - min
     edges = np.array([[[x_max, max], [x_min, min]]])
     cv2.drawContours(img_draw, edges, -1, (0, 0, 255), 2)
+    max_point = cv2.circle(img_point, (x_max, max), radius=5,
+                           color=(255, 0, 0), thickness=-1)
+    min_point = cv2.circle(img_point, (x_min, min), radius=5,
+                           color=(255, 0, 0), thickness=-1)
 
     print('max y: ', max)
     print('min y: ', min)
@@ -102,4 +107,5 @@ for contour in largest_contours:
 # Showing Images
 cv2.imshow('Contours Image', img_copy)
 cv2.imshow('Test Image', img_draw)
+cv2.imshow('Max Point', img_point)
 cv2.waitKey(0)
