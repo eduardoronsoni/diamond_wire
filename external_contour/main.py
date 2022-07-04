@@ -48,7 +48,7 @@ img = rescale(img, 50)
 
 # Copying the images for drawing purposes
 img_copy = img.copy()
-img_test = img.copy()
+img_draw = img.copy()
 
 # img = crop(img,50,100)
 
@@ -67,9 +67,7 @@ largest_contours = sorted(contours, key=cv2.contourArea)[-1:]
 cv2.drawContours(img_copy, largest_contours, -1, (0, 255, 0), 2)
 
 # type of largest contours
-#print('Type of Largest Contour variable: ', type(largest_contours))
 # python list with all the contours in the image. Each individual contour is a numpy array of (x,y) coordinates of boundary points
-# print(largest_contours)
 
 print(len(largest_contours))
 
@@ -80,7 +78,6 @@ for contour in largest_contours:
     print('dimension: ', contour.ndim)
     max = 0
     min = contour.max()
-    #print('MINIMO TESTE: ', min)
 
     for i in np.ndindex(contour.shape[:2]):
 
@@ -90,22 +87,19 @@ for contour in largest_contours:
         if contour[i][1] > max:
             max = contour[i][1]
             x_max = contour[i][0]
-            #i_max = i[0]
+
         if contour[i][1] < min:
             min = contour[i][1]
             x_min = contour[i][0]
 
+    diam = max - min
     edges = np.array([[[x_max, max], [x_min, min]]])
-    cv2.drawContours(img_test, edges, -1, (0, 0, 255), 2)
+    cv2.drawContours(img_draw, edges, -1, (0, 0, 255), 2)
 
     print('max y: ', max)
     print('min y: ', min)
-    #print('max iteration: ', i_max)
-    #print('min iteration: ', i_min)
-    diam = max - min
-
 
 # Showing Images
 cv2.imshow('Contours Image', img_copy)
-cv2.imshow('Test Image', img_test)
+cv2.imshow('Test Image', img_draw)
 cv2.waitKey(0)
