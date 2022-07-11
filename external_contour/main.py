@@ -103,12 +103,12 @@ for contour in largest_contours:
 
     for i in np.ndindex(contour.shape[:2]):
         # delimitating a workspace
-        if ((contour[i][1] >= min) & (contour[i][1] <= (min + abs(max_diam - max)/2)) & (contour[i][0] >= 10) & (contour[i][0] <= 500)):
+        if ((contour[i][1] >= min) & (contour[i][1] <= (min + abs(max_diam - max)/2)) & (contour[i][0] >= 10) & (contour[i][0] <= (img.shape[1] - 10))):
             if contour[i][1] >= upper_min:
                 upper_min = contour[i][1]
                 x_upper = contour[i][0]
 
-        if ((contour[i][1] <= max) & (contour[i][1] >= (max - abs(max_diam - max)/2)) & (contour[i][0] >= 10) & (contour[i][0] <= 500)):
+        if ((contour[i][1] <= max) & (contour[i][1] >= (max - abs(max_diam - max)/2)) & (contour[i][0] >= 10) & (contour[i][0] <= (img.shape[1] - 10))):
             if contour[i][1] <= lower_min:
                 lower_min = contour[i][1]
                 x_lower = contour[i][0]
