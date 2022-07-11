@@ -101,20 +101,19 @@ for contour in largest_contours:
 
     max_diam = max - min
 
+    for i in np.ndindex(contour.shape[:2]):
+        # delimitating a workspace
+        if ((contour[i][1] >= min) & (contour[i][1] <= (min + abs(max_diam - max)/2)) & (contour[i][0] >= 10) & (contour[i][0] <= 500)):
+            if contour[i][1] >= upper_min:
+                upper_min = contour[i][1]
+                x_upper = contour[i][0]
 
-for i in np.ndindex(contour.shape[:2]):
-    # delimitating a workspace
-    if ((contour[i][1] >= min) & (contour[i][1] <= (min + abs(max_diam - max)/2)) & (contour[i][0] >= x_max)):
-        if contour[i][1] >= upper_min:
-            upper_min = contour[i][1]
-            x_upper = contour[i][0]
+        if ((contour[i][1] <= max) & (contour[i][1] >= (max - abs(max_diam - max)/2)) & (contour[i][0] >= 10) & (contour[i][0] <= 500)):
+            if contour[i][1] <= lower_min:
+                lower_min = contour[i][1]
+                x_lower = contour[i][0]
 
-    if ((contour[i][1] <= max) & (contour[i][1] >= (max - abs(max_diam - max)/2)) & (contour[i][0] >= x_min)):
-        if contour[i][1] <= lower_min:
-            lower_min = contour[i][1]
-            x_lower = contour[i][0]
-
-    nominal_diam = abs(lower_min - upper_min)
+        nominal_diam = abs(lower_min - upper_min)
 
 edges = np.array([[[x_max, max], [x_min, min]]])
 cv2.drawContours(img_draw, edges, -1, (0, 0, 255), 2)
