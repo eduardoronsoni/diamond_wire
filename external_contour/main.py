@@ -99,7 +99,7 @@ for contour in largest_contours:
             min = contour[i][1]
             x_min = contour[i][0]
 
-    max_diam = max - min
+    max_diam = abs(max - min)
 
     for i in np.ndindex(contour.shape[:2]):
         # delimitating a workspace
@@ -113,22 +113,25 @@ for contour in largest_contours:
                 lower_min = contour[i][1]
                 x_lower = contour[i][0]
 
-        nominal_diam = abs(lower_min - upper_min)
+    nominal_diam = abs(lower_min - upper_min)
 
 edges = np.array([[[x_max, max], [x_min, min]]])
+nominal = np.array([[[x_upper, upper_min], [x_lower, lower_min]]])
 cv2.drawContours(img_draw, edges, -1, (0, 0, 255), 2)
+cv2.drawContours(img_draw, nominal, -1, (255, 0, 0), 2)
 max_point = cv2.circle(img_point, (x_max, max), radius=5,
                        color=(255, 0, 0), thickness=-1)
 min_point = cv2.circle(img_point, (x_min, min), radius=5,
                        color=(255, 0, 0), thickness=-1)
-
 upper_diam = cv2.circle(img_point, (x_upper, upper_min), radius=5,
                         color=(0, 255, 0), thickness=-1)
 lower_diam = cv2.circle(img_point, (x_lower, lower_min), radius=5,
                         color=(0, 255, 0), thickness=-1)
 
-print('upper diam: ', upper_min)
-print('lower diam: ', lower_min)
+print('upper nominal: ', upper_min)
+print('lower nominal: ', lower_min)
+print('nominal diameter: ', nominal_diam)
+print('maximum diameter: ', max_diam)
 print('max y: ', max)
 print('min y: ', min)
 
