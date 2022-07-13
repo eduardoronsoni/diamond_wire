@@ -134,18 +134,18 @@ lower_diam = cv2.circle(img_point, (x_lower, lower_min), radius=5,
 # ---------------------------------------LOOPING THROUGH EVERY PIXEL-------------------------------------------------------
 list_upper = []
 list_lower = []
+i = 0
+j = 0
 for x in range(img.shape[1]):  # width
     for y in range(img.shape[0]):  # height
-        i = 0
-        j = 0
-        if y <= lower_min:
+
+        if y <= upper_min:
             if (x, y) in (list_contours):
                 i += 1
-        else:
+        if y >= lower_min:
             if (x, y) in (list_contours):
                 j += 1
-
-print(i+j)
+print('i+j: ', (i+j))
 
 # ---------------------------------------PRINTING RESULTS------------------------------------------------------------------
 #print('List of Contours: ', list_contours)
