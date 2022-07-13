@@ -117,10 +117,56 @@ for contour in largest_contours:
 
     nominal_diam = abs(lower_min - upper_min)
 
+
+# ---------------------------------------LOOPING THROUGH EVERY PIXEL-------------------------------------------------------
+list_upper = []
+list_lower = []
+
+# i = 0
+# j = 0
+for x in range(img.shape[1]):  # width
+    for y in range(img.shape[0]):  # height
+
+        if y <= upper_min:
+            if (x, y) in (list_contours):
+                # i += 1
+                list_upper.append(y)
+
+        if y >= lower_min:
+            if (x, y) in (list_contours):
+                # j += 1
+                list_lower.append(y)
+
+
+def Average(lst):
+    return sum(lst) / len(lst)
+
+
+average_upper = Average(list_upper)
+average_lower = Average(list_lower)
+# ---------------------------------------PRINTING RESULTS------------------------------------------------------------------
+# print('List of Contours: ', list_contours)
+# print('(All the measures showed below are in number of pixels)')
+print('upper nominal: ', upper_min)
+print('lower nominal: ', lower_min)
+print('nominal diameter: ', nominal_diam)
+print('maximum diameter: ', max_diam)
+print('max y: ', max)
+print('min y: ', min)
+print('mean upper :', round(average_upper))
+print('mean lower :', round(average_lower))
+print('mean diameter:', round(abs(average_lower - average_upper)))
+
+
 edges = np.array([[[x_max, max], [x_min, min]]])
 nominal = np.array([[[x_upper, upper_min], [x_lower, lower_min]]])
+mean = np.array([[[round((img.shape[1])/2), int(average_upper)],
+                [round((img.shape[1])/2), int(average_lower)]]])
+
 cv2.drawContours(img_draw, edges, -1, (0, 0, 255), 2)
 cv2.drawContours(img_draw, nominal, -1, (255, 0, 0), 2)
+cv2.drawContours(img_draw, mean, -1, (0, 255, 0), 2)
+
 max_point = cv2.circle(img_point, (x_max, max), radius=5,
                        color=(255, 0, 0), thickness=-1)
 min_point = cv2.circle(img_point, (x_min, min), radius=5,
@@ -129,36 +175,13 @@ upper_diam = cv2.circle(img_point, (x_upper, upper_min), radius=5,
                         color=(0, 255, 0), thickness=-1)
 lower_diam = cv2.circle(img_point, (x_lower, lower_min), radius=5,
                         color=(0, 255, 0), thickness=-1)
-
-
-# ---------------------------------------LOOPING THROUGH EVERY PIXEL-------------------------------------------------------
-list_upper = []
-list_lower = []
-i = 0
-j = 0
-for x in range(img.shape[1]):  # width
-    for y in range(img.shape[0]):  # height
-
-        if y <= upper_min:
-            if (x, y) in (list_contours):
-                i += 1
-        if y >= lower_min:
-            if (x, y) in (list_contours):
-                j += 1
-print('i+j: ', (i+j))
-
-# ---------------------------------------PRINTING RESULTS------------------------------------------------------------------
-#print('List of Contours: ', list_contours)
-# print('(All the measures showed below are in number of pixels)')
-# print('upper nominal: ', upper_min)
-# print('lower nominal: ', lower_min)
-# print('nominal diameter: ', nominal_diam)
-# print('maximum diameter: ', max_diam)
-# print('max y: ', max)
-# print('min y: ', min)
+upper_mean_diam = cv2.circle(img_point, (240, int(round(average_upper))), radius=5,
+                             color=(0, 0, 255), thickness=-1)
+lower_mean_diam = cv2.circle(img_point, (240, int(round(average_lower))), radius=5,
+                             color=(0, 0, 255), thickness=-1)
 
 # ---------------------------------------PLOTTING IMAGES---------------------------------------------------------------------
-# cv2.imshow('Contours Image', img_copy)
-# cv2.imshow('Test Image', img_draw)
-# cv2.imshow('Max Point', img_point)
-# cv2.waitKey(0)
+cv2.imshow('Contours Image', img_copy)
+cv2.imshow('Test Image', img_draw)
+cv2.imshow('Max Point', img_point)
+cv2.waitKey(0)
