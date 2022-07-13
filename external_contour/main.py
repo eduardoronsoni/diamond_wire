@@ -73,7 +73,7 @@ cv2.drawContours(img_copy, largest_contours, -1, (0, 255, 0), 2)
 
 print(len(largest_contours))
 
-# looping through list(only 1 array on the list)
+# ------------------------------------------------LOOPING THROUGH LIST (ONLY 1 ARRAY ON THE LIST)-------------------------------------
 for contour in largest_contours:
 
     print('shape :', contour.shape)
@@ -82,9 +82,9 @@ for contour in largest_contours:
     upper_min = 0  # local minimum of the "lower" edge for nominal diameter
     min = contour.max()
     lower_min = contour.max()  # local minimum of the "upper" edge for nominal diameter
+    list_contours = []
 
-
-# looping through every pixel of the contour
+# -------------------------------------------------LOOPING THROUGH EVERY ITEM OF  THE CONTOUR-----------------------------------------
     for i in np.ndindex(contour.shape[:2]):
 
         # print('i: ', i[0])  # [0])
@@ -98,6 +98,8 @@ for contour in largest_contours:
         if contour[i][1] < min:
             min = contour[i][1]
             x_min = contour[i][0]
+
+        list_contours.append((contour[i][0], contour[i][1]))
 
     max_diam = abs(max - min)
 
@@ -128,15 +130,35 @@ upper_diam = cv2.circle(img_point, (x_upper, upper_min), radius=5,
 lower_diam = cv2.circle(img_point, (x_lower, lower_min), radius=5,
                         color=(0, 255, 0), thickness=-1)
 
-print('upper nominal: ', upper_min)
-print('lower nominal: ', lower_min)
-print('nominal diameter: ', nominal_diam)
-print('maximum diameter: ', max_diam)
-print('max y: ', max)
-print('min y: ', min)
 
-# Showing Images
-cv2.imshow('Contours Image', img_copy)
-cv2.imshow('Test Image', img_draw)
-cv2.imshow('Max Point', img_point)
-cv2.waitKey(0)
+# ---------------------------------------LOOPING THROUGH EVERY PIXEL-------------------------------------------------------
+list_upper = []
+list_lower = []
+for x in range(img.shape[1]):  # width
+    for y in range(img.shape[0]):  # height
+        i = 0
+        j = 0
+        if y <= lower_min:
+            if (x, y) in (list_contours):
+                i += 1
+        else:
+            if (x, y) in (list_contours):
+                j += 1
+
+print(i+j)
+
+# ---------------------------------------PRINTING RESULTS------------------------------------------------------------------
+#print('List of Contours: ', list_contours)
+# print('(All the measures showed below are in number of pixels)')
+# print('upper nominal: ', upper_min)
+# print('lower nominal: ', lower_min)
+# print('nominal diameter: ', nominal_diam)
+# print('maximum diameter: ', max_diam)
+# print('max y: ', max)
+# print('min y: ', min)
+
+# ---------------------------------------PLOTTING IMAGES---------------------------------------------------------------------
+# cv2.imshow('Contours Image', img_copy)
+# cv2.imshow('Test Image', img_draw)
+# cv2.imshow('Max Point', img_point)
+# cv2.waitKey(0)
