@@ -41,7 +41,7 @@ def crop(img, x, y):
     return img
 
 
-def zoom(n):
+def magnification(n):
     """
     Function to transform value between units of measurement 
     number of pixels ------>  µm
@@ -49,7 +49,7 @@ def zoom(n):
 
     """
     if n = 50:
-        factor = 10  # see the quantity of pixels per µm on ImageJ
+        factor = 10  # factor*pixels = µm ----> factor = µm/pixel
 
     if n = 250:
         factor = 200
@@ -167,7 +167,7 @@ if value not in values_list:
     print(f'ERRO: Valor inserido não disponível na lista {values_list}')
 print(f'Você inseriu o valor {value} ')
 
-fct = zoom(value)
+fct = magnification(value)
 
 
 # ---------------------------------------PRINTING RESULTS----------------------------------------------------------------------
