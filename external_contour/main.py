@@ -41,6 +41,22 @@ def crop(img, x, y):
     return img
 
 
+def zoom(n):
+    """
+    Function to transform value between units of measurement 
+    number of pixels ------>  µm
+    x pixels = y µm
+
+    """
+    if n = 50:
+        factor = 10  # see the quantity of pixels per µm on ImageJ
+
+    if n = 250:
+        factor = 200
+
+    return factor
+
+
 path = '../images/fio_2.1.tif'  # path of images directory
 
 img = cv2.imread(path, 0)  # get grayscale image
@@ -144,18 +160,28 @@ def Average(lst):
 
 average_upper = Average(list_upper)
 average_lower = Average(list_lower)
-# ---------------------------------------PRINTING RESULTS------------------------------------------------------------------
+# ----------------------------------------USER MICROSCOPE ZOOM IMPUT------------------------------------------------------------
+values_list = [50, 250]
+value = input('Insira o valor da escala do microscópio:\n ')
+if value not in values_list:
+    print(f'ERRO: Valor inserido não disponível na lista {values_list}')
+print(f'Você inseriu o valor {value} ')
+
+fct = zoom(value)
+
+
+# ---------------------------------------PRINTING RESULTS----------------------------------------------------------------------
 # print('List of Contours: ', list_contours)
 # print('(All the measures showed below are in number of pixels)')
-print('upper nominal: ', upper_min)
-print('lower nominal: ', lower_min)
-print('nominal diameter: ', nominal_diam)
-print('maximum diameter: ', max_diam)
-print('max y: ', max)
-print('min y: ', min)
-print('mean upper :', round(average_upper))
-print('mean lower :', round(average_lower))
-print('mean diameter:', round(abs(average_lower - average_upper)))
+# print('upper nominal: ', upper_min)
+# print('lower nominal: ', lower_min)
+print(f'minimum diameter:{fct*nominal_diam} µm')
+print(f'mean diameter: {fct*(round(abs(average_lower - average_upper)))} µm')
+print(f'maximum diameter:{fct*max_diam} µm')
+# print('max y: ', max)
+# print('min y: ', min)
+# print('mean upper :', round(average_upper))
+# print('mean lower :', round(average_lower))
 
 
 edges = np.array([[[x_max, max], [x_min, min]]])
