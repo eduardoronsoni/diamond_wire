@@ -3,6 +3,7 @@ import cv2
 import matplotlib.pyplot as plt
 from itertools import chain
 from collections import Counter
+import sys
 
 
 def rescale(img, pct):
@@ -30,7 +31,6 @@ def crop(img, x, y):
     x - maximum x coordinate of pixels (width)
     y - maximum height you want
     img - image you want to change the size
-
     """
 
     w = int(img.shape[1])  # width
@@ -41,21 +41,41 @@ def crop(img, x, y):
     return img
 
 
-def magnification(n):
+def amplification(n):
     """
     Function to transform value between units of measurement 
     number of pixels ------>  µm
     x pixels = y µm
-
     """
-    if n = 50:
-        factor = 10  # factor*pixels = µm ----> factor = µm/pixel
+    factor = 0
 
-    if n = 250:
+    if n == 50:
+        factor = 10  # factor*pixel = µm ----------> factor = µm/pixel
+
+    if n == 250:
         factor = 200
 
     return factor
 
+
+# ----------------------------------------USER MICROSCOPE ZOOM IMPUT------------------------------------------------------------
+values_list = [50, 250]
+print(type(values_list))
+value = input(
+    f'Insira o valor da escala do microscópio de acordo com a lista a seguir: {values_list} \n ')
+print(f'Você inseriu o valor {value} ')
+value = int(value)
+
+if value in values_list:
+    print(f'Valor válido ...')
+else:
+    print(
+        f'ERRO: Valor inserido não disponível na lista de valores, código será encerrado')
+    sys.exit()
+
+fct = amplification(value)
+
+# -----------------------------------------INICIALIZING IMAGE----------------------------------------------------------------------------------
 
 path = '../images/fio_2.1.tif'  # path of images directory
 
@@ -160,15 +180,6 @@ def Average(lst):
 
 average_upper = Average(list_upper)
 average_lower = Average(list_lower)
-# ----------------------------------------USER MICROSCOPE ZOOM IMPUT------------------------------------------------------------
-values_list = [50, 250]
-value = input('Insira o valor da escala do microscópio:\n ')
-if value not in values_list:
-    print(f'ERRO: Valor inserido não disponível na lista {values_list}')
-print(f'Você inseriu o valor {value} ')
-
-fct = magnification(value)
-
 
 # ---------------------------------------PRINTING RESULTS----------------------------------------------------------------------
 # print('List of Contours: ', list_contours)
