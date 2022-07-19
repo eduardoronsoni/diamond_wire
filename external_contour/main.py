@@ -50,30 +50,14 @@ def amplification(n):
     factor = 0
 
     if n == 50:
-        factor = 10  # factor*pixel = µm ----------> factor = µm/pixel
+        # factor*pixel = µm ----------> factor = µm/pixel
+        factor = (5.167)
 
     if n == 250:
-        factor = 200
+        factor = (0.51)
 
     return factor
 
-
-# ----------------------------------------USER MICROSCOPE ZOOM IMPUT------------------------------------------------------------
-values_list = [50, 250]
-print(type(values_list))
-value = input(
-    f'Insira o valor da escala do microscópio de acordo com a lista a seguir: {values_list} \n ')
-print(f'Você inseriu o valor {value} ')
-value = int(value)
-
-if value in values_list:
-    print(f'Valor válido ...')
-else:
-    print(
-        f'ERRO: Valor inserido não disponível na lista de valores, código será encerrado')
-    sys.exit()
-
-fct = amplification(value)
 
 # -----------------------------------------INICIALIZING IMAGE----------------------------------------------------------------------------------
 
@@ -81,7 +65,8 @@ path = '../images/fio_2.1.tif'  # path of images directory
 
 img = cv2.imread(path, 0)  # get grayscale image
 
-img = rescale(img, 50)
+pct = 50  # size percentage of the original image
+img = rescale(img, pct)
 
 # Copying the images for drawing purposes
 img_copy = img.copy()
@@ -109,6 +94,22 @@ cv2.drawContours(img_copy, largest_contours, -1, (0, 255, 0), 2)
 
 print(len(largest_contours))
 
+# ----------------------------------------USER MICROSCOPE ZOOM IMPUT------------------------------------------------------------
+values_list = [50, 250]
+print(type(values_list))
+value = input(
+    f'Insira o valor da escala do microscópio de acordo com a lista a seguir: {values_list} \n ')
+print(f'Você inseriu o valor {value} ')
+value = int(value)
+
+if value in values_list:
+    print(f'Valor válido ...')
+else:
+    print(
+        f'ERRO: Valor inserido não disponível na lista de valores, código será encerrado')
+    sys.exit()
+
+fct = amplification(value)/(pct/100)
 # ------------------------------------------------LOOPING THROUGH LIST (ONLY 1 ARRAY ON THE LIST)-------------------------------------
 for contour in largest_contours:
 
