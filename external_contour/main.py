@@ -116,9 +116,9 @@ for contour in largest_contours:
     print('shape :', contour.shape)
     print('dimension: ', contour.ndim)
     max = 0
-    upper_min = 0  # local minimum of the "lower" edge for nominal diameter
+
     min = contour.max()
-    lower_min = contour.max()  # local minimum of the "upper" edge for nominal diameter
+
     list_contours = []
 
 # -------------------------------------------------LOOPING THROUGH EVERY ITEM OF  THE CONTOUR-----------------------------------------
@@ -139,15 +139,19 @@ for contour in largest_contours:
         list_contours.append((contour[i][0], contour[i][1]))
 
     max_diam = abs(max - min)
+    max_radius = abs(max - min)/2
+
+    upper_min = min  # local minimum of the "lower" edge for nominal diameter
+    lower_min = contour.max()  # local minimum of the "upper" edge for nominal diameter
 
     for i in np.ndindex(contour.shape[:2]):
         # delimitating a workspace
-        if ((contour[i][1] >= min) & (contour[i][1] <= (min + abs(max_diam - max)/2)) & (contour[i][0] >= 10) & (contour[i][0] <= (img.shape[1] - 10))):
-            if contour[i][1] >= upper_min:
+        if ((contour[i][1] >= min) & (contour[i][1] <= (min + max_radius)) & (contour[i][0] >= 10) & (contour[i][0] <= (img.shape[1] - 10))):
+            if contour[i][1] > upper_min:
                 upper_min = contour[i][1]
                 x_upper = contour[i][0]
 
-        if ((contour[i][1] <= max) & (contour[i][1] >= (max - abs(max_diam - max)/2)) & (contour[i][0] >= 10) & (contour[i][0] <= (img.shape[1] - 10))):
+        if ((contour[i][1] <= max) & (contour[i][1] >= (max - max_radius)) & (contour[i][0] >= 10) & (contour[i][0] <= (img.shape[1] - 10))):
             if contour[i][1] <= lower_min:
                 lower_min = contour[i][1]
                 x_lower = contour[i][0]
