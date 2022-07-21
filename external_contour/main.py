@@ -51,7 +51,7 @@ def amplification(n):
 
     if n == 50:
         # factor*pixel = µm ----------> factor = µm/pixel
-        factor = (5.167)
+        factor = (2.63)
 
     if n == 250:
         factor = (0.51)
@@ -61,7 +61,7 @@ def amplification(n):
 
 # -----------------------------------------INICIALIZING IMAGE----------------------------------------------------------------------------------
 
-path = '../images/fio_2.1.tif'  # path of images directory
+path = '../images/fio_2.8.tif'  # path of images directory
 
 img = cv2.imread(path, 0)  # get grayscale image
 
@@ -109,7 +109,7 @@ else:
         f'ERRO: Valor inserido não disponível na lista de valores, código será encerrado')
     sys.exit()
 
-fct = amplification(value)/(pct/100)
+fct = (amplification(value))/(pct/100)
 # ------------------------------------------------LOOPING THROUGH LIST (ONLY 1 ARRAY ON THE LIST)-------------------------------------
 for contour in largest_contours:
 
@@ -213,10 +213,10 @@ upper_diam = cv2.circle(img_point, (x_upper, upper_min), radius=5,
                         color=(0, 255, 0), thickness=-1)
 lower_diam = cv2.circle(img_point, (x_lower, lower_min), radius=5,
                         color=(0, 255, 0), thickness=-1)
-upper_mean_diam = cv2.circle(img_point, (240, int(round(average_upper))), radius=5,
-                             color=(0, 0, 255), thickness=-1)
-lower_mean_diam = cv2.circle(img_point, (240, int(round(average_lower))), radius=5,
-                             color=(0, 0, 255), thickness=-1)
+# upper_mean_diam = cv2.circle(img_point, (240, int(round(average_upper))), radius=5,
+#                             color=(0, 0, 255), thickness=-1)
+# lower_mean_diam = cv2.circle(img_point, (240, int(round(average_lower))), radius=5,
+#                             color=(0, 0, 255), thickness=-1)
 
 # ---------------------------------------PLOTTING IMAGES---------------------------------------------------------------------
 cv2.imshow('Contours Image', img_copy)
