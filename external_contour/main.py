@@ -54,14 +54,14 @@ def amplification(n):
         factor = (2.63)
 
     if n == 250:
-        factor = (0.51)
+        factor = (0.5128)
 
     return factor
 
 
 # -----------------------------------------INICIALIZING IMAGE----------------------------------------------------------------------------------
 
-path = '../images/fio_2.8.tif'  # path of images directory
+path = '../images/fio_2.1.tif'  # path of images directory
 
 img = cv2.imread(path, 0)  # get grayscale image
 
