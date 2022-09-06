@@ -270,11 +270,17 @@ lower_diam = cv2.circle(img_point, (x_lower, lower_min), radius=5,
 # lower_mean_diam = cv2.circle(img_point, (240, int(round(average_lower))), radius=5,
 #                             color=(0, 0, 255), thickness=-1)
 
+#drawing lines
+line_upper_diam = cv2.line(img_point,(0, upper_min), (img.shape[1], upper_min ), (0,0,255),thickness=3)
+line_lower_diam = cv2.line(img_point,(0, lower_min ), (img.shape[1], lower_min), (0,0,255),thickness=3)
+
+line_upper_point = cv2.line(img_point, (0, min), (img.shape[1],min), (255,0,0), thickness=3)
+line_lower_point = cv2.line(img_point, (0, max), (img.shape[1],max),(255,0,0), thickness=3)
+
 # ---------------------------------------PLOTTING IMAGES---------------------------------------------------------------------
 cv2.imshow('Contours Image', img_copy)
 cv2.imshow('Test Image', img_draw)
-cv2.imshow('Max Point', img_point)
-cv2.imshow('detectedLines.png',img)
+cv2.imshow('Lines and Points',img_point)
 cv2.waitKey(0)
 
-cv2.waitKey(0)
+
